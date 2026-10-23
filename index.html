@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Mapbox D1 · MapLibre 福州</title>
+    <!-- MapLibre = Mapbox GL JS 的开源分支，API 一模一样，不需要 token -->
+    <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+    <style>
+      body {
+        margin: 0;
+      }
+      #map {
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      const map = new maplibregl.Map({
+        container: "map",
+        center: [119.3, 26.08], // 福州
+        zoom: 11,
+        style: {
+          version: 8,
+          sources: {
+            // 天地图：国内稳定（img=卫星影像，cia=中文注记，两层叠加才显示地名）
+            img: {
+              type: "raster",
+              tiles: [
+                "https://t0.tianditu.gov.cn/img_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=w&TileMatrix={z}&TileRow={y}&TileCol={x}&style=default&format=tiles&tk=8a48a81b544e7d2b4edec09e4fb4e339",
+                "https://t1.tianditu.gov.cn/img_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=w&TileMatrix={z}&TileRow={y}&TileCol={x}&style=default&format=tiles&tk=8a48a81b544e7d2b4edec09e4fb4e339",
+                "https://t2.tianditu.gov.cn/img_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=w&TileMatrix={z}&TileRow={y}&TileCol={x}&style=default&format=tiles&tk=8a48a81b544e7d2b4edec09e4fb4e339"
+              ],
+              tileSize: 256
+            },
+            cia: {
+              type: "raster",
+              tiles: [
+                "https://t0.tianditu.gov.cn/cia_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cia&tileMatrixSet=w&TileMatrix={z}&TileRow={y}&TileCol={x}&style=default&format=tiles&tk=8a48a81b544e7d2b4edec09e4fb4e339",
+                "https://t1.tianditu.gov.cn/cia_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cia&tileMatrixSet=w&TileMatrix={z}&TileRow={y}&TileCol={x}&style=default&format=tiles&tk=8a48a81b544e7d2b4edec09e4fb4e339",
+                "https://t2.tianditu.gov.cn/cia_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cia&tileMatrixSet=w&TileMatrix={z}&TileRow={y}&TileCol={x}&style=default&format=tiles&tk=8a48a81b544e7d2b4edec09e4fb4e339"
+              ],
+              tileSize: 256
+            }
+
+            // ===== 备用：OSM 官方瓦片（国内常被重置，仅翻墙环境可用）=====
+            // osm: {
+            //   type: "raster",
+            //   tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+            //   tileSize: 256,
+            //   attribution: "© OpenStreetMap contributors"
+            // }
+          },
+          layers: [
+            { id: "img", type: "raster", source: "img" },
+            { id: "cia", type: "raster", source: "cia" }
+          ]
+        }
+      });
+
+      map.on("load", () => {
+        console.log("✅ 地图加载完成");
+        map.addControl(new maplibregl.NavigationControl(), "top-left");
+      });
+    </script>
+  </body>
+</html>
