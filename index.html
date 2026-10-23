@@ -4,8 +4,9 @@
     <meta charset="utf-8" />
     <title>Mapbox D1 · MapLibre 福州</title>
     <!-- MapLibre = Mapbox GL JS 的开源分支，API 一模一样，不需要 token -->
-    <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+    <!-- 2026-10-23 起 npm 自托管：jsdelivr 国内被重置，自托管也是内网部署的面试考点 -->
+    <script src="./lib/maplibre-gl.js"></script>
+    <link href="./lib/maplibre-gl.css" rel="stylesheet" />
     <style>
       body {
         margin: 0;
@@ -55,6 +56,7 @@
             // }
           },
           layers: [
+            { id: "bg", type: "background", paint: { "background-color": "#0b1c2c" } },
             { id: "img", type: "raster", source: "img" },
             { id: "cia", type: "raster", source: "cia" }
           ]
